@@ -8,7 +8,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
-<!-- ⚡ SUPAYA GAMBAR PARFUM LANGSUNG MUNCUL: unduh dimulai sejak awal -->
+<!-- ⚡ SUPAYA GAMBAR PARFUM LANGSUNG MUNCUL -->
 <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
 <link rel="preload" as="image" href="https://res.cloudinary.com/jybaddju/image/upload/v1786303752/2_f141n1.png">
 <script>
@@ -45,9 +45,10 @@ body::before {
 }
 body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; background: rgba(13, 10, 8, 0.85); }
 nav, section, div, footer, a, img, form, button, input, textarea, i { position: relative; z-index: 1; }
+button, a, input, textarea, .qty-btn, .pay-option, .copy-btn { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 @media (max-width: 768px) {
   body::before, body::after { background-attachment: scroll !important; }
-  .modal-backdrop { backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+  .modal-backdrop { background: rgba(13,10,8,0.95); backdrop-filter: none; -webkit-backdrop-filter: none; }
 }
 
 ::-webkit-scrollbar { width: 5px; }
@@ -91,18 +92,37 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
 @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-@keyframes slideUp { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(14px) scale(0.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
 .anim-fade-up { animation: fadeUp 0.9s ease-out forwards; opacity: 0; }
 .anim-fade-in { animation: fadeIn 0.7s ease-out forwards; opacity: 0; }
 .anim-float { animation: float 3.5s ease-in-out infinite; }
-.anim-slide-up { animation: slideUp 0.4s cubic-bezier(0.16,1,0.3,1) forwards; }
+.anim-slide-up { animation: slideUp 0.22s cubic-bezier(0.2, 0.9, 0.25, 1) forwards; }
 .d1 { animation-delay: 0.1s; }
 .d2 { animation-delay: 0.2s; }
 .d3 { animation-delay: 0.3s; }
 .d4 { animation-delay: 0.4s; }
 .d5 { animation-delay: 0.5s; }
+
+/* ============ TOMBOL REQUEST VARIAN CANTIK & HIDUP ============ */
+.btn-request {
+  background: linear-gradient(120deg, #E8C9A8 0%, #D4A574 25%, #FFD700 50%, #D4A574 75%, #E8C9A8 100%);
+  background-size: 300% auto;
+  color: #13100C;
+  border: 1px solid rgba(232,201,168,0.7);
+  box-shadow: 0 4px 15px rgba(212,165,116,0.35);
+  animation: reqShimmer 3.5s linear infinite, reqGlow 2.4s ease-in-out infinite;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+.btn-request:hover { transform: translateY(-1px); }
+.btn-request:active { transform: scale(0.94); }
+@keyframes reqShimmer { 0% { background-position: 0% center; } 100% { background-position: 300% center; } }
+@keyframes reqGlow {
+  0%, 100% { box-shadow: 0 4px 15px rgba(212,165,116,0.3), 0 0 12px rgba(212,165,116,0.15); }
+  50% { box-shadow: 0 5px 22px rgba(212,165,116,0.55), 0 0 28px rgba(255,215,0,0.28); }
+}
 
 /* ============ KARTU PARFUM MEWAH & ANTI LAG ============ */
 .perfume-card {
@@ -196,7 +216,7 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
   z-index: 1;
 }
 
-/* ============ BADGE KECIL (TERSEDIA / SOLD OUT / SISA) ============ */
+/* ============ BADGE KECIL (TERSEDIA / SOLD OUT) ============ */
 .available-badge {
   position: absolute; top: 8px; left: 8px; z-index: 20;
   background: linear-gradient(135deg, #34D399, #16A34A); color: #fff;
@@ -215,14 +235,6 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
   animation: soPulse 2s ease-in-out infinite;
 }
 @keyframes soPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
-
-.stock-chip {
-  position: absolute; top: 8px; right: 8px; z-index: 20;
-  background: linear-gradient(135deg, #F59E0B, #D97706); color: #fff;
-  font-size: 9px; font-weight: 900; padding: 3px 8px; border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(245,158,11,0.45);
-  -webkit-text-fill-color: #fff !important; pointer-events: none;
-}
 
 /* ============ NAMA VARIAN PAKAI LAMPU GLOW ============ */
 .variant-name {
@@ -288,20 +300,37 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
   color: var(--text-sec);
 }
 
+/* ============ TOMBOL PESAN SEKARANG YANG CANTIK ============ */
 .btn-order {
-  background: rgba(212,165,116,0.08);
-  border: 1px solid rgba(212,165,116,0.2);
-  color: var(--accent-dark);
-  transition: background 0.2s ease;
+  background: linear-gradient(135deg, #E8C9A8 0%, #D4A574 50%, #B8865A 100%);
+  color: #13100C;
+  border: 1px solid rgba(232,201,168,0.7);
+  font-weight: 900;
+  box-shadow: 0 4px 14px rgba(212,165,116,0.28);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 .btn-order:hover {
-  background: linear-gradient(135deg, #D4A574, #B8865A);
-  color: #13100C;
-  border-color: #D4A574;
+  background: linear-gradient(135deg, #F5DEB3 0%, #D4A574 55%, #C89565 100%);
+  box-shadow: 0 8px 24px rgba(212,165,116,0.45);
+  transform: translateY(-1px);
 }
+.btn-order:active { transform: scale(0.96); }
+.btn-order::after {
+  content: ""; position: absolute; top: 0; left: 0;
+  width: 45%; height: 100%;
+  background: linear-gradient(100deg, transparent 0%, rgba(255,255,255,0.5) 50%, transparent 100%);
+  transform: translateX(-160%) skewX(-18deg);
+  animation: btnShine 3s ease-in-out infinite;
+  pointer-events: none;
+}
+/* tombol sold out: mati & merah */
 .perfume-card.is-soldout .btn-order {
-  background: rgba(239,68,68,0.12) !important; border-color: rgba(239,68,68,0.4) !important; color: #FCA5A5 !important; pointer-events: none;
+  background: rgba(239,68,68,0.12) !important; border-color: rgba(239,68,68,0.4) !important; color: #FCA5A5 !important; box-shadow: none !important; pointer-events: none;
 }
+.perfume-card.is-soldout .btn-order::after { display: none; }
 
 .btn-primary {
   background: linear-gradient(135deg, #D4A574, #B8865A);
@@ -337,6 +366,7 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
 
 .qty-btn { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-accent); border-radius: 12px; background: rgba(212,165,116,0.06); color: var(--accent-dark); cursor: pointer; transition: background 0.2s; font-size: 20px; user-select: none; }
 .qty-btn:hover { background: rgba(212,165,116,0.15); }
+.qty-btn:active { transform: scale(0.92); }
 
 .marquee-track { display: flex; align-items: center; gap: 4rem; animation: marquee 30s linear infinite; width: max-content; padding-left: 4rem; }
 .marquee-track span { display: inline-block; }
@@ -373,7 +403,7 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
 .pay-option.selected { border-color: var(--accent); background: rgba(212,165,116,0.1); color: var(--accent-dark); }
 .pay-option input { display: none; }
 
-/* ============ KARTU REKENING CANTIK & BESAR (muncul saat pilih Rupiah) ============ */
+/* ============ KARTU REKENING CANTIK & BESAR (saat pilih Rupiah) ============ */
 .account-card {
   background: linear-gradient(160deg, rgba(212,165,116,0.14) 0%, rgba(26,22,18,0.98) 55%);
   border: 1.5px solid rgba(212,165,116,0.45);
@@ -409,6 +439,7 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
   font-family: 'Inter', sans-serif;
 }
 .copy-btn:hover { background: linear-gradient(135deg, #E8C9A8, #D4A574); box-shadow: 0 8px 22px rgba(212,165,116,0.5); }
+.copy-btn:active { transform: scale(0.97); }
 .copy-btn::after {
   content: ""; position: absolute; top: 0; left: 0;
   width: 45%; height: 100%;
@@ -446,7 +477,7 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
   <div id="logoArea" class="flex items-center gap-2.5 cursor-pointer select-none">
     <img src="https://lh3.googleusercontent.com/d/1IytfC8kty5Z4PnNhHPsY7zfMAi5CCyw4" alt="VJ Parfume Logo" class="h-8 md:h-10 w-auto object-contain drop-shadow-lg">
   </div>
-  <button onclick="openReqModal()" class="text-xs md:text-sm flex items-center gap-1.5 transition-colors font-extrabold btn-order px-3 py-1.5 rounded-lg" style="color: var(--accent-dark);">
+  <button onclick="openReqModal()" class="btn-request text-xs md:text-sm flex items-center gap-1.5 font-black px-3.5 md:px-4 py-2 md:py-2.5 rounded-xl tracking-wide">
     Request Varian
     <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
   </button>
@@ -730,7 +761,7 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
       <div class="gold-divider mx-4 md:mx-5"></div>
       <div class="px-4 md:px-5 py-3 flex-shrink-0 rounded-xl mx-3 mt-2 pulse-green-border" style="background: rgba(34,197,94,0.08); border: 2px solid rgba(34,197,94,0.3);">
         <p class="text-[12px] md:text-sm leading-relaxed font-extrabold" style="color: #22C55E;">📌 INFO STOK:</p>
-        <p class="text-[11px] md:text-xs leading-relaxed font-bold mt-1.5" style="color: var(--text-sec);">Atur jumlah stok parfum di bawah ini. Jika ada yang beli, stok akan <strong>berkurang otomatis</strong> (dan tersinkron ke Google Sheet). Jika stok 0, akan langsung tulisan <strong>SOLD OUT</strong>.</p>
+        <p class="text-[11px] md:text-xs leading-relaxed font-bold mt-1.5" style="color: var(--text-sec);">Atur jumlah stok parfum di bawah ini. Jika ada yang beli, stok akan <strong>berkurang otomatis</strong> (dan tersinkron ke Google Sheet semua device). Jika stok 0, akan langsung tulisan <strong>SOLD OUT</strong>.</p>
       </div>
       <div id="adminContent" class="flex-1 overflow-y-auto px-4 md:px-5 pb-3 md:pb-4 space-y-2.5 md:space-y-3"></div>
     </div>
@@ -761,7 +792,7 @@ const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw5DuDHL66elZ
 const ADMIN_PASSWORD = "vjadmin2025";
 const WA_NUMBER = "60173698359";
 
-/* >>> KURS: 1 Baht = Rp 500 → Rp 200.000 = B400. Ganti angka ini kalau kurs berubah <<< */
+/* >>> KURS: 1 Baht = Rp 500 → Rp 200.000 = B400 <<< */
 const KURS_IDR_PER_THB = 500;
 const DISKON_MIN_QTY = 4;
 const DISKON_RATE = 0.10;
@@ -877,7 +908,7 @@ function loadParfum() {
 let parfumData = loadParfum();
 function saveParfum() { try { localStorage.setItem('vj_parfum_data', JSON.stringify(parfumData)); } catch (e) {} }
 
-/* ================= KIRIM KE GOOGLE SHEET (FORMAT PERSIS KAYAK SCRIPT ASLI) ================= */
+/* ================= KIRIM KE GOOGLE SHEET (FORMAT PERSIS SCRIPT ASLI) ================= */
 function kirimKeSheet(params) {
   try {
     fetch(GOOGLE_SCRIPT_URL, {
@@ -888,7 +919,7 @@ function kirimKeSheet(params) {
   } catch (e) {}
 }
 
-/* ================= RENDER KATALOG (GAMBAR LANGSUNG MUNCUL — TANPA LAZY & TANPA DELAY) ================= */
+/* ================= RENDER KATALOG (TANPA SISA STOK — GAMBAR LANGSUNG MUNCUL) ================= */
 function renderProducts(filter) {
   const grid = document.getElementById('productGrid');
   const empty = document.getElementById('emptyState');
@@ -898,10 +929,8 @@ function renderProducts(filter) {
   empty.classList.add('hidden');
   grid.innerHTML = list.map(function (p) {
     const soldOut = p.stok <= 0;
-    const sisa = p.stok > 0 && p.stok <= 3;
     return '<div class="perfume-card' + (soldOut ? ' is-soldout' : '') + '">'
       + (soldOut ? '<div class="sold-out-badge">SOLD OUT</div>' : '<div class="available-badge">✓ Tersedia</div>')
-      + (sisa ? '<div class="stock-chip">🔥 Sisa ' + p.stok + '</div>' : '')
       + '<div class="card-img-wrap">'
       + '<span class="twinkle" style="top:14%; left:13%;">✦</span>'
       + '<span class="twinkle t2" style="top:22%; right:12%;">✦</span>'
@@ -947,7 +976,6 @@ function openModal(id) {
   document.getElementById('orderModal').classList.remove('hidden');
   document.body.style.overflow = 'hidden';
   updatePaymentDetails('IDR');
-  refreshIcons();
 }
 function closeModal() {
   document.getElementById('orderModal').classList.add('hidden');
@@ -961,7 +989,6 @@ function calcTotal(p) {
   return { subtotal: subtotal, total: total, discounted: discounted };
 }
 
-/* pilih Rupiah → muncul kartu rekening cantik; pilih Baht → simple (total langsung ganti) */
 function updatePaymentDetails(val) {
   orderState.currency = val;
   document.querySelectorAll('#paymentOptions .pay-option').forEach(function (el) {
@@ -1034,7 +1061,7 @@ function copyRekening() {
   }
 }
 
-/* ================= KIRIM PESANAN (MASUK KE GOOGLE SHEET, FORMAT PERSIS SCRIPT ASLI) ================= */
+/* ================= KIRIM PESANAN (MASUK SHEET "PESANAN") ================= */
 function submitOrder(event) {
   event.preventDefault();
   const p = parfumData.find(function (x) { return x.id === orderState.id; });
@@ -1049,15 +1076,11 @@ function submitOrder(event) {
   const bayarText = cur === 'IDR' ? 'Rupiah (Rp)' : 'Baht (B)';
   const waktu = new Date().toLocaleString('id-ID');
 
-  /* stok berkurang otomatis */
   p.stok -= qty;
   saveParfum();
   renderProducts(document.getElementById('searchInput').value);
 
-  /* update stok di sheet (persis kayak script asli) */
   kirimKeSheet({ action: 'updateStok', id: p.id, stok: p.stok });
-
-  /* catat pesanan ke sheet (persis kayak script asli) */
   kirimKeSheet({ Waktu: waktu, Nama: nama, Varian: p.nama, Jumlah: qty, Bayar: bayarText, Total: totalText, Catatan: catatan });
 
   showToast('Pesanan Berhasil! 🎉', 'Pesanan Anda sedang disiapkan oleh Admin');
@@ -1066,11 +1089,10 @@ function submitOrder(event) {
   document.getElementById('inputCatatan').value = '';
 }
 
-/* ================= REQUEST VARIAN (MASUK KE SHEET, FORMAT PERSIS SCRIPT ASLI) ================= */
+/* ================= REQUEST VARIAN (MASUK SHEET "REQUEST") ================= */
 function openReqModal() {
   document.getElementById('reqModal').classList.remove('hidden');
   document.body.style.overflow = 'hidden';
-  refreshIcons();
 }
 function closeReqModal() {
   document.getElementById('reqModal').classList.add('hidden');
@@ -1112,7 +1134,6 @@ function openAdminModal() {
   document.getElementById('adminPassInput').value = '';
   document.getElementById('adminError').classList.add('hidden');
   document.body.style.overflow = 'hidden';
-  refreshIcons();
 }
 function closeAdminModal() {
   document.getElementById('adminModal').classList.add('hidden');
@@ -1155,7 +1176,6 @@ function updateProduct(id, field, value) {
   else { p[field] = value; }
   saveParfum();
   renderProducts(document.getElementById('searchInput').value);
-  /* sinkron stok ke sheet juga */
   kirimKeSheet({ action: 'updateStok', id: p.id, stok: p.stok });
   showToast('Tersimpan! ✅', 'Data parfum berhasil diperbarui');
   renderAdmin();
@@ -1208,6 +1228,29 @@ window.addEventListener('load', function () {
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') { closePromo(); closeModal(); closeReqModal(); closeAdminModal(); }
 });
+
+/* ================= SINKRON STOK DARI SHEET KE SEMUA DEVICE ================= */
+window.applyServerStok = function (data) {
+  if (!Array.isArray(data)) return;
+  let changed = false;
+  data.forEach(function (s) {
+    const p = parfumData.find(function (x) { return String(x.id) === String(s.id); });
+    if (p && typeof s.stok === 'number' && p.stok !== s.stok) { p.stok = s.stok; changed = true; }
+  });
+  if (changed) {
+    saveParfum();
+    renderProducts(document.getElementById('searchInput').value);
+  }
+};
+(function muatStokServer() {
+  try {
+    const s = document.createElement('script');
+    s.src = GOOGLE_SCRIPT_URL + '?callback=applyServerStok';
+    s.onload = function () { if (s.parentNode) s.parentNode.removeChild(s); };
+    s.onerror = function () { if (s.parentNode) s.parentNode.removeChild(s); };
+    document.body.appendChild(s);
+  } catch (e) {}
+})();
 
 /* ================= MULAI ================= */
 renderProducts('');
