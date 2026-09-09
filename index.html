@@ -8,6 +8,9 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+<!-- ⚡ SUPAYA GAMBAR PARFUM LANGSUNG MUNCUL: unduh dimulai sejak awal -->
+<link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+<link rel="preload" as="image" href="https://res.cloudinary.com/jybaddju/image/upload/v1786303752/2_f141n1.png">
 <script>
 tailwind.config = {
   theme: {
@@ -141,7 +144,6 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
     radial-gradient(circle at 50% 30%, rgba(212,165,116,0.10) 0%, transparent 60%),
     radial-gradient(circle at 50% 45%, #3A3028 0%, #241E18 50%, #171310 85%) !important;
 }
-/* AURORA WARNA BERPUTAR LEMBUT DI BELAKANG BOTOL (animasi transform = ringan) */
 .card-img-wrap::before {
   content: "";
   position: absolute; top: 50%; left: 50%;
@@ -165,7 +167,6 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
   from { transform: translate(-50%, -50%) rotate(0deg); }
   to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
-/* LAMPU SPOTLIGHT EMAS BERDENYUT DI BOTOL */
 .card-img-wrap::after {
   content: "";
   position: absolute; top: 12%; left: 50%;
@@ -178,7 +179,6 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
 }
 @keyframes glowPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-/* BINTANG KELIP-KELIP (3 warna: emas, pink, biru) */
 .twinkle {
   position: absolute; z-index: 1; font-size: 13px; line-height: 1;
   color: #FFD700; text-shadow: 0 0 12px rgba(255,215,0,0.95), 0 0 20px rgba(255,215,0,0.5);
@@ -299,7 +299,6 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
   color: #13100C;
   border-color: #D4A574;
 }
-/* tombol sold out: mati (gabisa diklik), tulisan Sold Out */
 .perfume-card.is-soldout .btn-order {
   background: rgba(239,68,68,0.12) !important; border-color: rgba(239,68,68,0.4) !important; color: #FCA5A5 !important; pointer-events: none;
 }
@@ -373,6 +372,52 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
 .pay-option:hover { border-color: var(--border-accent); }
 .pay-option.selected { border-color: var(--accent); background: rgba(212,165,116,0.1); color: var(--accent-dark); }
 .pay-option input { display: none; }
+
+/* ============ KARTU REKENING CANTIK & BESAR (muncul saat pilih Rupiah) ============ */
+.account-card {
+  background: linear-gradient(160deg, rgba(212,165,116,0.14) 0%, rgba(26,22,18,0.98) 55%);
+  border: 1.5px solid rgba(212,165,116,0.45);
+  border-radius: 16px;
+  padding: 16px 16px 14px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(212,165,116,0.14);
+  position: relative;
+  overflow: hidden;
+}
+.account-card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, #D4A574, #FFD700, #D4A574, transparent);
+}
+.acct-label { font-size: 10px; font-weight: 900; letter-spacing: 0.22em; text-transform: uppercase; color: #FFD7A8; margin-bottom: 8px; }
+.account-bank { font-weight: 900; font-size: 13px; letter-spacing: 0.25em; color: #E8C9A8; text-transform: uppercase; margin-bottom: 4px; }
+.account-number {
+  font-weight: 900; font-size: 26px; line-height: 1.15; letter-spacing: 0.06em;
+  background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  margin-bottom: 4px;
+}
+.account-name { font-weight: 800; font-size: 13px; color: var(--text-sec); }
+.copy-btn {
+  margin-top: 12px; width: 100%;
+  background: linear-gradient(135deg, #D4A574, #B8865A);
+  color: #13100C; border: none; border-radius: 12px; padding: 10px 12px;
+  font-weight: 900; font-size: 12px; letter-spacing: 0.03em;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  box-shadow: 0 4px 14px rgba(212,165,116,0.32);
+  transition: background 0.2s, box-shadow 0.2s;
+  cursor: pointer; position: relative; overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+.copy-btn:hover { background: linear-gradient(135deg, #E8C9A8, #D4A574); box-shadow: 0 8px 22px rgba(212,165,116,0.5); }
+.copy-btn::after {
+  content: ""; position: absolute; top: 0; left: 0;
+  width: 45%; height: 100%;
+  background: linear-gradient(100deg, transparent 0%, rgba(255,255,255,0.45) 50%, transparent 100%);
+  transform: translateX(-160%) skewX(-18deg);
+  animation: btnShine 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+.acct-note { font-size: 10px; font-weight: 700; color: var(--text-muted); margin-top: 10px; }
 
 .pulse-green-border { animation: pulseGreen 2s ease-in-out infinite; }
 @keyframes pulseGreen {
@@ -585,7 +630,7 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
   </div>
 </div>
 
-<!-- MODAL ORDER (TANPA KOTAK KETERANGAN PEMBAYARAN & TANPA SISA STOK) -->
+<!-- MODAL ORDER -->
 <div id="orderModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 md:p-4 modal-backdrop">
   <div class="modal-box w-full max-w-md max-h-[92vh] overflow-y-auto anim-slide-up">
     <div class="flex items-center justify-between p-5 md:p-6 pb-3 md:pb-4">
@@ -630,6 +675,9 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
           </label>
         </div>
       </div>
+
+      <!-- KARTU REKENING (muncul saat pilih Rupiah) -->
+      <div id="paymentDetails" class="hidden"></div>
 
       <div>
         <label class="block text-[11px] md:text-xs font-extrabold mb-1.5 md:mb-2" style="color: var(--text-sec);">Jumlah Pesanan</label>
@@ -682,7 +730,7 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
       <div class="gold-divider mx-4 md:mx-5"></div>
       <div class="px-4 md:px-5 py-3 flex-shrink-0 rounded-xl mx-3 mt-2 pulse-green-border" style="background: rgba(34,197,94,0.08); border: 2px solid rgba(34,197,94,0.3);">
         <p class="text-[12px] md:text-sm leading-relaxed font-extrabold" style="color: #22C55E;">📌 INFO STOK:</p>
-        <p class="text-[11px] md:text-xs leading-relaxed font-bold mt-1.5" style="color: var(--text-sec);">Atur jumlah stok parfum di bawah ini. Jika ada yang beli, stok akan <strong>berkurang otomatis</strong>. Jika stok 0, akan langsung tulisan <strong>SOLD OUT</strong>. Semua perubahan tersimpan otomatis.</p>
+        <p class="text-[11px] md:text-xs leading-relaxed font-bold mt-1.5" style="color: var(--text-sec);">Atur jumlah stok parfum di bawah ini. Jika ada yang beli, stok akan <strong>berkurang otomatis</strong> (dan tersinkron ke Google Sheet). Jika stok 0, akan langsung tulisan <strong>SOLD OUT</strong>.</p>
       </div>
       <div id="adminContent" class="flex-1 overflow-y-auto px-4 md:px-5 pb-3 md:pb-4 space-y-2.5 md:space-y-3"></div>
     </div>
@@ -693,7 +741,7 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
   <div class="flex items-start gap-3 md:gap-4">
     <div class="w-10 h-10 md:w-11 md:h-11 rounded-xl flex items-center justify-center flex-shrink-0" style="background: rgba(34,197,94,0.08);"><i data-lucide="check-circle" class="w-5 h-5" style="color: #22C55E;"></i></div>
     <div>
-      <p class="font-extrabold text-xs md:text-sm" style="color: #22C55E;" id="toastTitle">Pesanan Sedang Disiapkan! 🎉</p>
+      <p class="font-extrabold text-xs md:text-sm" style="color: #22C55E;" id="toastTitle">Pesanan Berhasil! 🎉</p>
       <p class="text-[10px] md:text-xs mt-0.5 md:mt-1 font-bold" style="color: var(--text-muted);" id="toastDesc">Pesanan Anda sedang disiapkan oleh Admin</p>
     </div>
   </div>
@@ -717,6 +765,9 @@ const WA_NUMBER = "60173698359";
 const KURS_IDR_PER_THB = 500;
 const DISKON_MIN_QTY = 4;
 const DISKON_RATE = 0.10;
+
+/* >>> DATA REKENING (muncul cantik + besar saat pilih Rupiah) <<< */
+const REKENING = { nomor: '100698330638', bank: 'BANK JAGO', nama: 'Pijai Kumar' };
 
 function toTHB(idr) { return idr / KURS_IDR_PER_THB; }
 function fmtTHB(thb) { return 'B' + Math.round(thb); }
@@ -801,7 +852,7 @@ const defaultParfumData = [
 { id: 62, nama: "GATSBY", gambarUrl: "https://res.cloudinary.com/jybaddju/image/upload/v1786303752/2_f141n1.png", harga: 200000, stok: 0, ukuran: "35ml" },
 { id: 63, nama: "DRAKAR", gambarUrl: "https://res.cloudinary.com/jybaddju/image/upload/v1786303752/2_f141n1.png", harga: 200000, stok: 5, ukuran: "35ml" }
 ];
-  
+
 function loadParfum() {
   try {
     const saved = localStorage.getItem('vj_parfum_data');
@@ -826,7 +877,18 @@ function loadParfum() {
 let parfumData = loadParfum();
 function saveParfum() { try { localStorage.setItem('vj_parfum_data', JSON.stringify(parfumData)); } catch (e) {} }
 
-/* ================= RENDER KATALOG ================= */
+/* ================= KIRIM KE GOOGLE SHEET (FORMAT PERSIS KAYAK SCRIPT ASLI) ================= */
+function kirimKeSheet(params) {
+  try {
+    fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      body: new URLSearchParams(params),
+      mode: 'no-cors'
+    }).catch(function () {});
+  } catch (e) {}
+}
+
+/* ================= RENDER KATALOG (GAMBAR LANGSUNG MUNCUL — TANPA LAZY & TANPA DELAY) ================= */
 function renderProducts(filter) {
   const grid = document.getElementById('productGrid');
   const empty = document.getElementById('emptyState');
@@ -834,18 +896,17 @@ function renderProducts(filter) {
   const list = parfumData.filter(function (p) { return p.nama.toLowerCase().indexOf(q) !== -1; });
   if (list.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
   empty.classList.add('hidden');
-  grid.innerHTML = list.map(function (p, i) {
+  grid.innerHTML = list.map(function (p) {
     const soldOut = p.stok <= 0;
     const sisa = p.stok > 0 && p.stok <= 3;
-    return '<div class="perfume-card' + (soldOut ? ' is-soldout' : '') + ' anim-fade-up" style="animation-delay:' + Math.min(i * 0.04, 0.5) + 's">'
-      /* badge kecil di atas: SOLD OUT / TERSEDIA */
+    return '<div class="perfume-card' + (soldOut ? ' is-soldout' : '') + '">'
       + (soldOut ? '<div class="sold-out-badge">SOLD OUT</div>' : '<div class="available-badge">✓ Tersedia</div>')
       + (sisa ? '<div class="stock-chip">🔥 Sisa ' + p.stok + '</div>' : '')
       + '<div class="card-img-wrap">'
       + '<span class="twinkle" style="top:14%; left:13%;">✦</span>'
       + '<span class="twinkle t2" style="top:22%; right:12%;">✦</span>'
       + '<span class="twinkle t3" style="bottom:12%; left:18%;">✦</span>'
-      + '<img src="' + p.gambarUrl + '" alt="' + escName(p.nama) + '" loading="lazy" decoding="async" class="card-img w-full h-auto object-contain p-4" onerror="handleImgError(this, \'' + escName(p.nama) + '\')">'
+      + '<img src="' + p.gambarUrl + '" alt="' + escName(p.nama) + '" class="card-img w-full h-auto object-contain p-4" onerror="handleImgError(this, \'' + escName(p.nama) + '\')">'
       + '</div>'
       + '<div class="px-3 md:px-4 pb-3 md:pb-4 flex flex-col flex-1">'
       + '<h3 class="variant-name text-center text-sm md:text-base leading-tight mb-2">' + p.nama + '</h3>'
@@ -855,7 +916,6 @@ function renderProducts(filter) {
       + '<div class="price-divider"></div>'
       + '<p class="thb-price text-sm md:text-base font-black">' + fmtTHB(toTHB(p.harga)) + '</p>'
       + '</div>'
-      /* sold out: tombol jadi "Sold Out" (mati, gabisa diklik). gambar tetap normal */
       + '<button onclick="openModal(' + p.id + ')" class="btn-order w-full rounded-xl py-2.5 md:py-3 font-extrabold text-[11px] md:text-xs flex items-center justify-center gap-1.5">'
       + '<i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i> ' + (soldOut ? 'Sold Out' : 'Pesan Sekarang')
       + '</button>'
@@ -901,7 +961,7 @@ function calcTotal(p) {
   return { subtotal: subtotal, total: total, discounted: discounted };
 }
 
-/* simple: cuma ganti pilihan Rupiah/Baht, langsung TOTAL HARGA ikut ganti */
+/* pilih Rupiah → muncul kartu rekening cantik; pilih Baht → simple (total langsung ganti) */
 function updatePaymentDetails(val) {
   orderState.currency = val;
   document.querySelectorAll('#paymentOptions .pay-option').forEach(function (el) {
@@ -909,6 +969,22 @@ function updatePaymentDetails(val) {
     const radio = el.querySelector('input');
     if (radio) radio.checked = (radio.value === val);
   });
+  const det = document.getElementById('paymentDetails');
+  if (val === 'IDR') {
+    det.innerHTML = '<div class="account-card">'
+      + '<p class="acct-label">💳 Transfer ke Rekening Ini</p>'
+      + '<p class="account-bank">' + REKENING.bank + '</p>'
+      + '<p class="account-number text-[26px] md:text-[30px]">' + REKENING.nomor + '</p>'
+      + '<p class="account-name">a.n. ' + REKENING.nama + '</p>'
+      + '<button type="button" onclick="copyRekening()" class="copy-btn"><i data-lucide="copy" class="w-4 h-4"></i> Salin No. Rekening</button>'
+      + '<p class="acct-note">Transfer sesuai total pesanan ya 🙏✨</p>'
+      + '</div>';
+    det.classList.remove('hidden');
+    refreshIcons();
+  } else {
+    det.innerHTML = '';
+    det.classList.add('hidden');
+  }
   updateTotalDisplay();
 }
 
@@ -934,54 +1010,63 @@ function changeQty(n) {
   updatePaymentDetails(orderState.currency);
 }
 
-/* ================= KIRIM PESANAN ================= */
-function kirimKeServer(data) {
-  try {
-    fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST', mode: 'no-cors',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams(data).toString()
-    }).catch(function () {});
-  } catch (e) {}
+/* ================= TOMBOL SALIN REKENING ================= */
+function copyRekening() {
+  const num = String(REKENING.nomor);
+  function sukses() { showToast('Berhasil Disalin! ✅', 'No. rekening ' + num + ' sudah tersalin'); }
+  function gagal() { showToast('Gagal Menyalin 😥', 'Salin manual ya: ' + num); }
+  function fallback() {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = num;
+      ta.style.position = 'fixed'; ta.style.top = '0'; ta.style.left = '0'; ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      if (ok) sukses(); else gagal();
+    } catch (e) { gagal(); }
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(num).then(sukses).catch(fallback);
+  } else {
+    fallback();
+  }
 }
 
+/* ================= KIRIM PESANAN (MASUK KE GOOGLE SHEET, FORMAT PERSIS SCRIPT ASLI) ================= */
 function submitOrder(event) {
   event.preventDefault();
   const p = parfumData.find(function (x) { return x.id === orderState.id; });
   if (!p || p.stok <= 0) { showToast('Maaf Ya 🥺', 'Stok parfum ini sedang habis'); return; }
   const nama = document.getElementById('inputNama').value.trim();
   if (!nama) { document.getElementById('inputNama').focus(); showToast('Oops! ⚠️', 'Isi dulu nama kamu ya'); return; }
-  const catatan = document.getElementById('inputCatatan').value.trim();
+  const catatan = document.getElementById('inputCatatan').value.trim() || '-';
   const qty = Math.min(orderState.qty, p.stok);
   const t = calcTotal(p);
   const cur = orderState.currency;
-  const totalStr = cur === 'IDR' ? fmtIDR(t.total) : fmtTHB(toTHB(t.total));
+  const totalText = cur === 'IDR' ? fmtIDR(t.total) : fmtTHB(toTHB(t.total));
+  const bayarText = cur === 'IDR' ? 'Rupiah (Rp)' : 'Baht (B)';
+  const waktu = new Date().toLocaleString('id-ID');
 
+  /* stok berkurang otomatis */
   p.stok -= qty;
   saveParfum();
   renderProducts(document.getElementById('searchInput').value);
 
-  let msg = ' Halo Admin VJ Parfume! 🌸\n\n'
-    + '🛍️ *PESANAN PARFUM*\n'
-    + '━━━━━━━━━━━━━━\n'
-    + '🌸 Produk : ' + p.nama + ' (' + (p.ukuran || '35ml') + ')\n'
-    + '📦 Jumlah : ' + qty + ' botol\n'
-    + '💰 Total : ' + totalStr + (t.discounted ? ' (diskon ' + Math.round(DISKON_RATE * 100) + '%)' : '') + '\n'
-    + '💳 Bayar : ' + (cur === 'IDR' ? 'Rupiah (Rp)' : 'Baht (B)') + '\n'
-    + '━━━━━━━━━━━━━━\n'
-    + '👤 Nama : ' + nama + '\n'
-    + '📝 Catatan : ' + (catatan || '-') + '\n\n'
-    + 'Mohon diproses ya 🙏✨';
+  /* update stok di sheet (persis kayak script asli) */
+  kirimKeSheet({ action: 'updateStok', id: p.id, stok: p.stok });
 
-  kirimKeServer({ type: 'order', nama: nama, produk: p.nama, qty: qty, total: totalStr, currency: cur, catatan: catatan, waktu: new Date().toLocaleString('id-ID') });
-  window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg), '_blank');
-  showToast('Pesanan Sedang Disiapkan! 🎉', 'Pesanan Anda akan diproses oleh Admin');
+  /* catat pesanan ke sheet (persis kayak script asli) */
+  kirimKeSheet({ Waktu: waktu, Nama: nama, Varian: p.nama, Jumlah: qty, Bayar: bayarText, Total: totalText, Catatan: catatan });
+
+  showToast('Pesanan Berhasil! 🎉', 'Pesanan Anda sedang disiapkan oleh Admin');
+  closeModal();
   document.getElementById('inputNama').value = '';
   document.getElementById('inputCatatan').value = '';
-  closeModal();
 }
 
-/* ================= REQUEST VARIAN ================= */
+/* ================= REQUEST VARIAN (MASUK KE SHEET, FORMAT PERSIS SCRIPT ASLI) ================= */
 function openReqModal() {
   document.getElementById('reqModal').classList.remove('hidden');
   document.body.style.overflow = 'hidden';
@@ -995,21 +1080,28 @@ function submitRequest(event) {
   event.preventDefault();
   const nama = document.getElementById('reqNama').value.trim();
   const varian = document.getElementById('reqVarian').value.trim();
-  if (!nama || !varian) { showToast('Oops! ⚠️', 'Nama & varian wajib diisi ya'); return; }
-  const catatan = document.getElementById('reqCatatan').value.trim();
-  let msg = ' Halo Admin VJ Parfume! ✨\n\n'
-    + '🌟 *REQUEST VARIAN PARFUM*\n'
-    + '━━━━━━━━━━━━━━\n'
-    + '👤 Nama : ' + nama + '\n'
-    + '🌸 Varian dicari : ' + varian + '\n'
-    + (catatan ? '📝 Catatan : ' + catatan + '\n' : '')
-    + '━━━━━━━━━━━━━━\n\n'
-    + 'Mohon info ketersediaan & harganya ya 🙏';
-  kirimKeServer({ type: 'request', nama: nama, varian: varian, catatan: catatan, waktu: new Date().toLocaleString('id-ID') });
-  window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg), '_blank');
-  showToast('Request Terkirim! ✨', 'Admin akan membalas via WhatsApp');
-  document.getElementById('requestForm').reset();
-  closeReqModal();
+  if (!nama || !varian) { showToast('Oops! ⚠️', 'Nama dan Varian wajib diisi!'); return; }
+  const catatan = document.getElementById('reqCatatan').value.trim() || '-';
+  const waktu = new Date().toLocaleString('id-ID');
+  const params = new URLSearchParams({
+    Waktu: waktu,
+    Nama: nama,
+    Varian: varian,
+    Bayar: 'Request Varian',
+    Total: '0',
+    Catatan: catatan
+  });
+  fetch(GOOGLE_SCRIPT_URL, {
+    method: 'POST',
+    body: params,
+    mode: 'no-cors'
+  }).then(function () {
+    showToast('Request Terkirim! 🎉', 'Admin akan mencarikan varian tersebut untukmu');
+    document.getElementById('requestForm').reset();
+    closeReqModal();
+  }).catch(function () {
+    showToast('Gagal Mengirim 😥', 'Coba lagi nanti');
+  });
 }
 
 /* ================= ADMIN PANEL ================= */
@@ -1063,6 +1155,8 @@ function updateProduct(id, field, value) {
   else { p[field] = value; }
   saveParfum();
   renderProducts(document.getElementById('searchInput').value);
+  /* sinkron stok ke sheet juga */
+  kirimKeSheet({ action: 'updateStok', id: p.id, stok: p.stok });
   showToast('Tersimpan! ✅', 'Data parfum berhasil diperbarui');
   renderAdmin();
 }
