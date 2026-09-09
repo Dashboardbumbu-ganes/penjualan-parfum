@@ -142,7 +142,6 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
   transition: box-shadow 0.3s ease;
   overflow: hidden;
 }
-/* lampu glow berdenyut di belakang botol (animasi opacity = ringan) */
 .card-img-wrap::before {
   content: "";
   position: absolute; top: 15%; left: 50%;
@@ -155,7 +154,6 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
 }
 @keyframes glowPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-/* bintang kelip-kelip di kotak botol */
 .twinkle {
   position: absolute; z-index: 1; font-size: 11px; line-height: 1;
   color: #FFD700; text-shadow: 0 0 10px rgba(255,215,0,0.9);
@@ -529,7 +527,7 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
   <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
 </a>
 
-<!-- MODAL REQUEST VARIAN (KETERANGAN LEBIH TERANG) -->
+<!-- MODAL REQUEST VARIAN (KETERANGAN TERANG) -->
 <div id="reqModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 md:p-4 modal-backdrop">
   <div class="modal-box w-full max-w-md max-h-[92vh] overflow-y-auto anim-slide-up">
     <div class="flex items-center justify-between p-5 md:p-6 pb-3 md:pb-4">
@@ -693,14 +691,14 @@ const WA_NUMBER = "60173698359";
 
 /* >>> KURS: 1 Baht = Rp 500 → Rp 200.000 = B400. Ganti angka ini kalau kurs berubah <<< */
 const KURS_IDR_PER_THB = 500;
-const DISKON_MIN_QTY = 4;   /* min. botol untuk dapat diskon */
-const DISKON_RATE = 0.10;   /* 10% diskon */
+const DISKON_MIN_QTY = 4;
+const DISKON_RATE = 0.10;
 
 function toTHB(idr) { return idr / KURS_IDR_PER_THB; }
 function fmtTHB(thb) { return 'B' + Math.round(thb); }
 function fmtIDR(idr) { return 'Rp ' + Math.round(idr).toLocaleString('id-ID'); }
 
-/* >>> SEMUA GAMBAR PARFUM PAKAI LINK BARU INI <<< */
+/* >>> GANTI SEMUA GAMBAR PARFUM DI SINI (CUKUP 1 TEMPAT INI SAJA) <<< */
 const FOTO_PARFUM = "https://res.cloudinary.com/jybaddju/image/upload/v1786303752/2_f141n1.png";
 const FOTO_LAMA = "https://res.cloudinary.com/jybaddju/image/upload/v1785474203/T_mjreus.png";
 
@@ -776,24 +774,28 @@ const defaultParfumData = [
 { id: 59, nama: "YSL BLACK OPIUM", gambarUrl: "https://res.cloudinary.com/jybaddju/image/upload/v1785474203/T_mjreus.png", harga: 200000, stok: 0, ukuran: "35ml" },
 { id: 59, nama: "DRAKAR", gambarUrl: "https://res.cloudinary.com/jybaddju/image/upload/v1785474203/T_mjreus.png", harga: 200000, stok: 5, ukuran: "35ml" }
 ];
- 
-/* otomatis ganti gambar lama ke gambar baru kalau ada data tersimpan di browser (stok & harga editan tetap aman) */
+/* otomatis ganti gambar lama ke gambar baru di data tersimpan (stok & harga editan tetap aman) */
 function loadParfum() {
   try {
     const saved = localStorage.getItem('vj_parfum_data');
     if (saved) {
       const data = JSON.parse(saved);
-      if (Array.isArray(data)) {
+      if (Array.isArray(data) && data.length > 0) {
         let updated = false;
         data.forEach(function (p) {
-          if (p.gambarUrl === FOTO_LAMA) { p.gambarUrl = FOTO_PARFUM; updated = true; }
+          if (p.gambarUrl === FOTO_LAMA || !p.gambarUrl) { p.gambarUrl = FOTO_PARFUM; updated = true; }
         });
         if (updated) { try { localStorage.setItem('vj_parfum_data', JSON.stringify(data)); } catch (e) {} }
         return data;
       }
     }
   } catch (e) {}
-  return JSON.parse(JSON.stringify(defaultParfumData));
+  /* pengaman: kalau apa-apa salah, jangan sampai script mati total */
+  try {
+    return JSON.parse(JSON.stringify(defaultParfumData));
+  } catch (e) {
+    return [];
+  }
 }
 let parfumData = loadParfum();
 function saveParfum() { try { localStorage.setItem('vj_parfum_data', JSON.stringify(parfumData)); } catch (e) {} }
@@ -810,7 +812,6 @@ function renderProducts(filter) {
     const soldOut = p.stok <= 0;
     const sisa = p.stok > 0 && p.stok <= 3;
     return '<div class="perfume-card' + (soldOut ? ' is-soldout' : '') + ' anim-fade-up" style="animation-delay:' + Math.min(i * 0.04, 0.5) + 's">'
-      /* badge hanya di atas: SOLD OUT merah / TERSEDIA hijau */
       + (soldOut ? '<div class="sold-out-badge">SOLD OUT</div>' : '<div class="available-badge">✓ Tersedia</div>')
       + (sisa ? '<div class="stock-chip">🔥 Sisa ' + p.stok + '</div>' : '')
       + '<div class="card-img-wrap">'
@@ -947,7 +948,6 @@ function submitOrder(event) {
   const cur = orderState.currency;
   const totalStr = cur === 'IDR' ? fmtIDR(t.total) : fmtTHB(toTHB(t.total));
 
-  /* stok berkurang otomatis */
   p.stok -= qty;
   saveParfum();
   renderProducts(document.getElementById('searchInput').value);
@@ -1102,7 +1102,6 @@ window.addEventListener('load', function () {
   }, 700);
 });
 
-/* tombol ESC untuk tutup semua popup/modal */
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') { closePromo(); closeModal(); closeReqModal(); closeAdminModal(); }
 });
