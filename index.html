@@ -101,7 +101,7 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
 .d4 { animation-delay: 0.4s; }
 .d5 { animation-delay: 0.5s; }
 
-/* ============ KARTU PARFUM MEWAH, HIDUP & ANTI LAG ============ */
+/* ============ KARTU PARFUM MEWAH & ANTI LAG ============ */
 .perfume-card {
   background: linear-gradient(160deg, rgba(35, 28, 21, 0.98) 0%, rgba(15, 12, 9, 1) 100%);
   border: 1px solid rgba(212, 165, 116, 0.15);
@@ -130,38 +130,64 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
 .perfume-card:hover .card-img { transform: scale(1.06); }
 .perfume-card:hover .card-img-wrap { box-shadow: inset 0 0 0 1px rgba(212,165,116,0.4); }
 
-/* ============ KOTAK BOTOL PARFUM YANG HIDUP ============ */
+/* ============ KOTAK BOTOL PARFUM YANG BENAR-BENAR HIDUP ============ */
 .card-img-wrap {
-  background:
-    radial-gradient(circle at 28% 22%, rgba(212,165,116,0.14) 0%, transparent 55%),
-    radial-gradient(circle at 74% 78%, rgba(255,105,180,0.08) 0%, transparent 55%),
-    radial-gradient(circle at 50% 42%, #322922 0%, #1C1814 85%) !important;
   position: relative;
+  overflow: hidden;
   border-bottom: 1px solid rgba(212,165,116,0.15);
   box-shadow: inset 0 0 0 1px rgba(212,165,116,0.10);
   transition: box-shadow 0.3s ease;
-  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(212,165,116,0.10) 0%, transparent 60%),
+    radial-gradient(circle at 50% 45%, #3A3028 0%, #241E18 50%, #171310 85%) !important;
 }
+/* AURORA WARNA BERPUTAR LEMBUT DI BELAKANG BOTOL (animasi transform = ringan) */
 .card-img-wrap::before {
   content: "";
-  position: absolute; top: 15%; left: 50%;
-  transform: translateX(-50%);
-  width: 75%; height: 70%;
-  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(212,165,116,0.42) 0%, rgba(212,165,116,0.14) 45%, transparent 70%);
+  position: absolute; top: 50%; left: 50%;
+  width: 130%; height: 130%;
+  background: conic-gradient(
+    rgba(255,215,0,0.16) 0deg,
+    rgba(212,165,116,0.34) 55deg,
+    rgba(255,105,180,0.18) 125deg,
+    rgba(125,211,252,0.19) 195deg,
+    rgba(196,181,253,0.16) 265deg,
+    rgba(255,215,0,0.16) 360deg
+  );
+  -webkit-mask-image: radial-gradient(circle, black 0%, rgba(0,0,0,0.55) 38%, transparent 66%);
+  mask-image: radial-gradient(circle, black 0%, rgba(0,0,0,0.55) 38%, transparent 66%);
+  transform: translate(-50%, -50%);
+  animation: auroraSpin 9s linear infinite;
   z-index: 0;
+  pointer-events: none;
+}
+@keyframes auroraSpin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+/* LAMPU SPOTLIGHT EMAS BERDENYUT DI BOTOL */
+.card-img-wrap::after {
+  content: "";
+  position: absolute; top: 12%; left: 50%;
+  transform: translateX(-50%);
+  width: 72%; height: 65%;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(232,201,168,0.34) 0%, rgba(212,165,116,0.13) 45%, transparent 70%);
   animation: glowPulse 3s ease-in-out infinite;
+  z-index: 0;
   pointer-events: none;
 }
 @keyframes glowPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
+/* BINTANG KELIP-KELIP (3 warna: emas, pink, biru) */
 .twinkle {
-  position: absolute; z-index: 1; font-size: 11px; line-height: 1;
-  color: #FFD700; text-shadow: 0 0 10px rgba(255,215,0,0.9);
+  position: absolute; z-index: 1; font-size: 13px; line-height: 1;
+  color: #FFD700; text-shadow: 0 0 12px rgba(255,215,0,0.95), 0 0 20px rgba(255,215,0,0.5);
   animation: twinkle 2.4s ease-in-out infinite;
   pointer-events: none;
 }
-.twinkle.t2 { animation-delay: 1.2s; font-size: 8px; color: #FF9ECD; text-shadow: 0 0 10px rgba(255,158,205,0.9); }
-@keyframes twinkle { 0%, 100% { opacity: 0; transform: scale(0.4) rotate(0deg); } 50% { opacity: 1; transform: scale(1) rotate(90deg); } }
+.twinkle.t2 { animation-delay: 0.8s; font-size: 10px; color: #FF9ECD; text-shadow: 0 0 12px rgba(255,158,205,0.95); }
+.twinkle.t3 { animation-delay: 1.6s; font-size: 9px; color: #7DD3FC; text-shadow: 0 0 12px rgba(125,211,252,0.95); }
+@keyframes twinkle { 0%, 100% { opacity: 0; transform: scale(0.4) rotate(0deg); } 50% { opacity: 1; transform: scale(1.1) rotate(90deg); } }
 
 .card-img {
   transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
@@ -169,31 +195,32 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
   position: relative;
   z-index: 1;
 }
-.perfume-card.is-soldout .card-img { filter: grayscale(100%) brightness(0.6); }
 
-/* ============ BADGE TERSEDIA / SOLD OUT (DI ATAS SAJA) ============ */
+/* ============ BADGE KECIL (TERSEDIA / SOLD OUT / SISA) ============ */
 .available-badge {
-  position: absolute; top: 10px; left: 10px; z-index: 20;
+  position: absolute; top: 8px; left: 8px; z-index: 20;
   background: linear-gradient(135deg, #34D399, #16A34A); color: #fff;
-  font-size: 11px; font-weight: 900; letter-spacing: 0.05em;
-  padding: 5px 12px; border-radius: 8px; text-transform: uppercase;
-  box-shadow: 0 4px 12px rgba(34,197,94,0.5); pointer-events: none;
+  font-size: 9px; font-weight: 900; letter-spacing: 0.04em;
+  padding: 3px 8px; border-radius: 6px; text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(34,197,94,0.45); pointer-events: none;
   -webkit-text-fill-color: #fff !important;
 }
 .sold-out-badge {
-  position: absolute; top: 10px; left: 10px; z-index: 20;
-  background: linear-gradient(135deg, #EF4444, #B91C1C); color: #fff; font-size: 11px; font-weight: 900; letter-spacing: 0.05em;
-  padding: 5px 12px; border-radius: 8px; text-transform: uppercase; box-shadow: 0 4px 12px rgba(239,68,68,0.6); pointer-events: none;
+  position: absolute; top: 8px; left: 8px; z-index: 20;
+  background: linear-gradient(135deg, #EF4444, #B91C1C); color: #fff;
+  font-size: 9px; font-weight: 900; letter-spacing: 0.04em;
+  padding: 3px 8px; border-radius: 6px; text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(239,68,68,0.5); pointer-events: none;
   -webkit-text-fill-color: #fff !important;
   animation: soPulse 2s ease-in-out infinite;
 }
 @keyframes soPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
 
 .stock-chip {
-  position: absolute; top: 10px; right: 10px; z-index: 20;
+  position: absolute; top: 8px; right: 8px; z-index: 20;
   background: linear-gradient(135deg, #F59E0B, #D97706); color: #fff;
-  font-size: 10px; font-weight: 900; padding: 4px 10px; border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(245,158,11,0.5);
+  font-size: 9px; font-weight: 900; padding: 3px 8px; border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(245,158,11,0.45);
   -webkit-text-fill-color: #fff !important; pointer-events: none;
 }
 
@@ -208,7 +235,6 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
   animation: nameGlow 3.2s ease-in-out infinite;
 }
 @keyframes nameGlow { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
-.perfume-card.is-soldout .variant-name { animation: none; opacity: 0.55; filter: none; }
 
 /* ============ PIL UKURAN 35ML HIDUP & CANTIK ============ */
 .size-pill {
@@ -273,6 +299,7 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
   color: #13100C;
   border-color: #D4A574;
 }
+/* tombol sold out: mati (gabisa diklik), tulisan Sold Out */
 .perfume-card.is-soldout .btn-order {
   background: rgba(239,68,68,0.12) !important; border-color: rgba(239,68,68,0.4) !important; color: #FCA5A5 !important; pointer-events: none;
 }
@@ -527,7 +554,7 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
   <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
 </a>
 
-<!-- MODAL REQUEST VARIAN (KETERANGAN TERANG) -->
+<!-- MODAL REQUEST VARIAN -->
 <div id="reqModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 md:p-4 modal-backdrop">
   <div class="modal-box w-full max-w-md max-h-[92vh] overflow-y-auto anim-slide-up">
     <div class="flex items-center justify-between p-5 md:p-6 pb-3 md:pb-4">
@@ -558,7 +585,7 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
   </div>
 </div>
 
-<!-- MODAL ORDER -->
+<!-- MODAL ORDER (TANPA KOTAK KETERANGAN PEMBAYARAN & TANPA SISA STOK) -->
 <div id="orderModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 md:p-4 modal-backdrop">
   <div class="modal-box w-full max-w-md max-h-[92vh] overflow-y-auto anim-slide-up">
     <div class="flex items-center justify-between p-5 md:p-6 pb-3 md:pb-4">
@@ -604,15 +631,12 @@ nav, section, div, footer, a, img, form, button, input, textarea, i { position: 
         </div>
       </div>
 
-      <div id="paymentDetails" class="hidden rounded-xl p-4 text-center" style="background: var(--accent-pale); border: 1px solid var(--border-accent);"></div>
-
       <div>
         <label class="block text-[11px] md:text-xs font-extrabold mb-1.5 md:mb-2" style="color: var(--text-sec);">Jumlah Pesanan</label>
         <div class="flex items-center gap-3 md:gap-4">
           <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
           <span id="qtyDisplay" class="text-xl md:text-2xl font-black w-8 md:w-10 text-center" style="color: var(--text);">1</span>
           <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
-          <span id="stockInfo" class="text-[11px] md:text-xs font-bold ml-auto" style="color: var(--text-muted);"></span>
         </div>
       </div>
 
@@ -774,7 +798,6 @@ const defaultParfumData = [
 { id: 59, nama: "YSL BLACK OPIUM", gambarUrl: "https://res.cloudinary.com/jybaddju/image/upload/v1785474203/T_mjreus.png", harga: 200000, stok: 0, ukuran: "35ml" },
 { id: 59, nama: "DRAKAR", gambarUrl: "https://res.cloudinary.com/jybaddju/image/upload/v1785474203/T_mjreus.png", harga: 200000, stok: 5, ukuran: "35ml" }
 ];
-/* otomatis ganti gambar lama ke gambar baru di data tersimpan (stok & harga editan tetap aman) */
 function loadParfum() {
   try {
     const saved = localStorage.getItem('vj_parfum_data');
@@ -790,7 +813,6 @@ function loadParfum() {
       }
     }
   } catch (e) {}
-  /* pengaman: kalau apa-apa salah, jangan sampai script mati total */
   try {
     return JSON.parse(JSON.stringify(defaultParfumData));
   } catch (e) {
@@ -812,11 +834,13 @@ function renderProducts(filter) {
     const soldOut = p.stok <= 0;
     const sisa = p.stok > 0 && p.stok <= 3;
     return '<div class="perfume-card' + (soldOut ? ' is-soldout' : '') + ' anim-fade-up" style="animation-delay:' + Math.min(i * 0.04, 0.5) + 's">'
+      /* badge kecil di atas: SOLD OUT / TERSEDIA */
       + (soldOut ? '<div class="sold-out-badge">SOLD OUT</div>' : '<div class="available-badge">✓ Tersedia</div>')
       + (sisa ? '<div class="stock-chip">🔥 Sisa ' + p.stok + '</div>' : '')
       + '<div class="card-img-wrap">'
-      + '<span class="twinkle" style="top:16%; left:14%;">✦</span>'
-      + '<span class="twinkle t2" style="bottom:12%; right:11%;">✦</span>'
+      + '<span class="twinkle" style="top:14%; left:13%;">✦</span>'
+      + '<span class="twinkle t2" style="top:22%; right:12%;">✦</span>'
+      + '<span class="twinkle t3" style="bottom:12%; left:18%;">✦</span>'
       + '<img src="' + p.gambarUrl + '" alt="' + escName(p.nama) + '" loading="lazy" decoding="async" class="card-img w-full h-auto object-contain p-4" onerror="handleImgError(this, \'' + escName(p.nama) + '\')">'
       + '</div>'
       + '<div class="px-3 md:px-4 pb-3 md:pb-4 flex flex-col flex-1">'
@@ -827,8 +851,9 @@ function renderProducts(filter) {
       + '<div class="price-divider"></div>'
       + '<p class="thb-price text-sm md:text-base font-black">' + fmtTHB(toTHB(p.harga)) + '</p>'
       + '</div>'
+      /* sold out: tombol jadi "Sold Out" (mati, gabisa diklik). gambar tetap normal */
       + '<button onclick="openModal(' + p.id + ')" class="btn-order w-full rounded-xl py-2.5 md:py-3 font-extrabold text-[11px] md:text-xs flex items-center justify-center gap-1.5">'
-      + '<i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i> Pesan Sekarang'
+      + '<i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i> ' + (soldOut ? 'Sold Out' : 'Pesan Sekarang')
       + '</button>'
       + '</div>'
       + '</div>';
@@ -854,8 +879,6 @@ function openModal(id) {
   img.onerror = function () { handleImgError(this, p.nama); };
   img.src = p.gambarUrl;
   document.getElementById('qtyDisplay').textContent = '1';
-  const si = document.getElementById('stockInfo');
-  si.textContent = 'Sisa stok: ' + p.stok; si.style.color = 'var(--text-muted)';
   document.getElementById('discountInfo').classList.add('hidden');
   document.getElementById('orderModal').classList.remove('hidden');
   document.body.style.overflow = 'hidden';
@@ -874,6 +897,7 @@ function calcTotal(p) {
   return { subtotal: subtotal, total: total, discounted: discounted };
 }
 
+/* simple: cuma ganti pilihan Rupiah/Baht, langsung TOTAL HARGA ikut ganti */
 function updatePaymentDetails(val) {
   orderState.currency = val;
   document.querySelectorAll('#paymentOptions .pay-option').forEach(function (el) {
@@ -881,22 +905,6 @@ function updatePaymentDetails(val) {
     const radio = el.querySelector('input');
     if (radio) radio.checked = (radio.value === val);
   });
-  const p = parfumData.find(function (x) { return x.id === orderState.id; });
-  const det = document.getElementById('paymentDetails');
-  if (!p) { det.classList.add('hidden'); return; }
-  const t = calcTotal(p);
-  let html = '';
-  if (val === 'IDR') {
-    html = '<p class="text-xs md:text-sm font-extrabold mb-2" style="color:#FFD7A8;">💵 Pembayaran Rupiah (Rp)</p>'
-      + '<p class="text-[11px] md:text-xs font-bold mb-1" style="color:var(--text-sec);">Total dibayar: <strong style="color:var(--accent-dark);">' + fmtIDR(t.total) + '</strong></p>'
-      + '<p class="text-[10px] md:text-[11px] font-bold" style="color:var(--text-muted);">Metode: Cash (Tunai)</p>';
-  } else {
-    html = '<p class="text-xs md:text-sm font-extrabold mb-2" style="color:#7DD3FC;">🪙 Pembayaran Baht (B)</p>'
-      + '<p class="text-[11px] md:text-xs font-bold mb-1" style="color:var(--text-sec);">Total dibayar: <strong style="color:#7DD3FC;">' + fmtTHB(toTHB(t.total)) + '</strong></p>'
-      + '<p class="text-[10px] md:text-[11px] font-bold" style="color:var(--text-muted);">Kurs: B1 = Rp ' + KURS_IDR_PER_THB + ' · Metode: Cash (Tunai)</p>';
-  }
-  det.innerHTML = html;
-  det.classList.remove('hidden');
   updateTotalDisplay();
 }
 
@@ -919,9 +927,6 @@ function changeQty(n) {
   if (q > p.stok) q = p.stok;
   orderState.qty = q;
   document.getElementById('qtyDisplay').textContent = q;
-  const si = document.getElementById('stockInfo');
-  if (q >= p.stok) { si.textContent = '⚠️ Maks stok: ' + p.stok; si.style.color = '#F59E0B'; }
-  else { si.textContent = 'Sisa stok: ' + p.stok; si.style.color = 'var(--text-muted)'; }
   updatePaymentDetails(orderState.currency);
 }
 
